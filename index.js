@@ -1,6 +1,6 @@
-
 // This is command
-const arr = () => console.log("hello world");
+const arr = () => console.log('hello world');
 
-arr()
+console.log('hello world');
 
+arr();
