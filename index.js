@@ -1,6 +1,11 @@
-// This is command
-const arr = () => console.log('hello world');
+import app from './src/app';
+import Bun from 'bun';
 
-console.log('hello world');
+const PORT = process.env.PORT || 3000;
 
-arr();
+const serve = Bun.serve({
+  port: PORT,
+  fetch: app.fetch,
+});
+
+console.log('server is running on PORT ' + serve.port);

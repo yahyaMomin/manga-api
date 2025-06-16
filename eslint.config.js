@@ -15,12 +15,4 @@ export default defineConfig([
       eslintPluginPrettier,
     },
   },
-  {rules : {
-      "capitalized-comments": [
-          "error",
-          "always",
-         
-      ]
-  
-  }}
 ]);
