@@ -2,9 +2,11 @@ import { Hono } from 'hono';
 import mangafireRoutes from './routes/mangafireRoutes';
 import { fail } from './utils/response';
 import { AppError } from './utils/error';
+import { logger } from 'hono/logger';
 
 const app = new Hono();
 
+app.use(logger());
 app.get('/', (c) => {
   return c.json({ message: 'hello world' });
 });

@@ -20,6 +20,8 @@ export const axiosInstance = async (url, customHeader) => {
       data: response.data,
     };
   } catch (error) {
+    console.log(error.message);
+
     return {
       success: false,
       message: error.message,

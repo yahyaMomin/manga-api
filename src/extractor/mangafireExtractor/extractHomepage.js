@@ -1,6 +1,7 @@
 import { load } from 'cheerio';
+import { genres, types } from '../../utils/mangafireStatics';
 
-export const extractHomepage = (html) => {
+const extractHomepage = (html) => {
   const $ = load(html);
   const resObj = {
     spotlight: [],
@@ -11,6 +12,8 @@ export const extractHomepage = (html) => {
     },
     recentlyUpdated: [],
     newRelease: [],
+    genres,
+    types,
   };
 
   // extract spotlight by grabing only spotlight element
@@ -133,3 +136,5 @@ export const extractHomepage = (html) => {
 
   return resObj;
 };
+
+export default extractHomepage;
