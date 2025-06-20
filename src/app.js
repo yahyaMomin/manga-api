@@ -22,7 +22,10 @@ app.use(
 );
 
 app.get('/', (c) => {
-  return c.json({ message: 'hello world' });
+  return c.json({ message: 'welcome to managa API 🎉' });
+});
+app.get('/health', (c) => {
+  c.json({ success: true });
 });
 app.route('/mangafire', mangafireRoutes);
 
