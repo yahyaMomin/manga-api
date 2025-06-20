@@ -11,7 +11,6 @@ const app = new Hono();
 dotenv.config();
 
 const origins = process.env.ORIGINS ? process.env.ORIGINS.split(',') : '*';
-console.log(origins);
 
 app.use(logger());
 app.use(
@@ -25,7 +24,7 @@ app.get('/', (c) => {
   return c.json({ message: 'welcome to managa API 🎉' });
 });
 app.get('/health', (c) => {
-  c.json({ success: true });
+  return c.json({ success: true });
 });
 app.route('/mangafire', mangafireRoutes);
 

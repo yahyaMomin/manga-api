@@ -7,7 +7,7 @@ const router = new Hono();
 const mangafireControllers = new MangafireControllers();
 
 router.get('/', (c) => {
-  c.json('welcome to mangafire API 🎉');
+  return c.json('welcome to mangafire API 🎉');
 });
 router.get('/home', handler(mangafireControllers.getHomepage));
 router.get('/manga/:id', handler(mangafireControllers.getDetailpage));
