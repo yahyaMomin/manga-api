@@ -79,9 +79,7 @@ const extractHomepage = (html) => {
   extractMostViewed('week');
 
   // extract recentlyupdated by grabing only second section element
-  const $recentlyUpdated = $('section')
-    .eq(1)
-    .find(`.tab-content[data-name="all"]`);
+  const $recentlyUpdated = $('section').eq(1).find(`.tab-content[data-name="all"]`);
 
   $recentlyUpdated.find('.unit').each((i, el) => {
     const recentlyUpdatedObj = {
@@ -101,8 +99,7 @@ const extractHomepage = (html) => {
 
     const $info = $(el).find('.info');
 
-    recentlyUpdatedObj.type =
-      $info.find('div').first().find('.type').text() || null;
+    recentlyUpdatedObj.type = $info.find('div').first().find('.type').text() || null;
 
     recentlyUpdatedObj.title = $info.find('a').first().text().trim() || null;
 
@@ -113,8 +110,7 @@ const extractHomepage = (html) => {
 
     recentlyUpdatedObj.chapters.totalChapters =
       $chapters.attr('href').split('chapter-').pop() || null;
-    recentlyUpdatedObj.chapters.lastUpdated =
-      $chapters.find('span').last().text().trim() || null;
+    recentlyUpdatedObj.chapters.lastUpdated = $chapters.find('span').last().text().trim() || null;
 
     resObj.recentlyUpdated.push(recentlyUpdatedObj);
   });

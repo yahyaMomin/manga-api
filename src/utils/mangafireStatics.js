@@ -41,11 +41,6 @@ export const genres = [
   'Thriller',
   'Vampire',
 ];
-export const types = [
-  'Manga',
-  'One-Shot',
-  'Doujinshi',
-  'Novel',
-  'Manhwa',
-  'Manhua',
-];
+export const types = ['manga', 'one-Shot', 'doujinshi', 'novel', 'manhwa', 'manhua'];
+
+export const validQueries = ['type', 'genre', 'newest', 'updated', 'added'];

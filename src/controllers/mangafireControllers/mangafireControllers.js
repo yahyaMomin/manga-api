@@ -1,51 +1,57 @@
 import Manga from '../../scraper';
-import { genres, types } from '../../utils/mangafireStatics';
-import { fail, success } from '../../utils/response';
+import { validationError } from '../../utils/error';
+import { genres, types, validQueries } from '../../utils/mangafireStatics';
 
 const manga = new Manga();
 class MangafireControllers {
-  async getHomepage(c) {
-    try {
-      const response = await manga.MangaFire.getHomePage();
-      return success(c, response);
-    } catch (error) {
-      console.log(error.message);
-      return fail(c);
-    }
+  async getHomepage() {
+    const response = await manga.MangaFire.getHomePage();
+    return response;
   }
 
   async getDetailpage(c) {
-    try {
-      const id = c.req.param('id');
-      const response = await manga.MangaFire.getDetails(id);
-      return success(c, response);
-    } catch (error) {
-      console.log(error.message);
-      return fail(c);
-    }
+    const id = c.req.param('id');
+    const response = await manga.MangaFire.getDetails(id);
+    return response;
   }
   async getListpage(c) {
-    const { query, category = null } = c.req.param();
+    let { query, category = null } = c.req.param();
     const page = parseInt(c.req.query('page')) || 1;
 
+    if (query !== 'type' && query !== 'genre') category = null;
+
+    if (!validQueries.includes(query)) throw new validationError('invalid query', { validQueries });
+
     if ((query === 'type' || query === 'genre') && category === null) {
-      return fail(c, `category is required with query ${query}`);
+      throw new validationError(`category is required with query ${query}`);
     }
 
-    if (query === 'type' && !types.includes(category)) {
-      return fail(c, `category is not valid`, 400, { validcategries: types });
+    function normalize(str) {
+      return str.toLowerCase().replace(/[-\s]/g, '');
     }
-    if (query === 'genre' && !genres.includes(category)) {
-      return fail(c, `category is not valid`, 400, { validcategries: genres });
+    if (query === 'type' && !types.some((g) => normalize(g) === normalize(category))) {
+      throw new validationError('category is not valid', { validcategries: types });
     }
-    try {
-      const response = await manga.MangaFire.getListpage(query, category, page);
-      return success(c, response);
-    } catch (error) {
-      console.log(error.message);
+    if (query === 'genre' && !genres.some((g) => normalize(g) === normalize(category))) {
+      throw new validationError('category is not valid', { validcategries: genres });
+    }
 
-      return fail(c);
-    }
+    const response = await manga.MangaFire.getListpage(query, category, page);
+    return response;
+  }
+
+  async getContents(c) {
+    const id = c.req.param('id');
+    const { data_by = 'chapter', lang = 'en' } = c.req.query();
+    const response = await manga.MangaFire.getContents(id, data_by, lang);
+    return response;
+  }
+  async getImages(c) {
+    const id = c.req.param('id');
+
+    const response = await manga.MangaFire.getImages(id);
+
+    return response;
   }
 }
 

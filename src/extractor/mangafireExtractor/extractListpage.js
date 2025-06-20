@@ -14,8 +14,7 @@ const extractListpage = (html) => {
 
   const $page = $('.pagination');
 
-  resObj.pageInfo.currentpage =
-    parseInt($page.find('.active .page-link').text()) || null;
+  resObj.pageInfo.currentpage = parseInt($page.find('.active .page-link').text()) || null;
 
   const $lastPage = $page.find('.page-item .page-link').last();
 
@@ -50,18 +49,14 @@ const extractListpage = (html) => {
     const $latestChap = $info.find('.content').first().find('li a');
 
     responseObj.chapters.totalChapters =
-      parseInt($latestChap.find('span').first().text().split('Chap').pop()) ||
-      null;
+      parseInt($latestChap.find('span').first().text().split('Chap').pop()) ?? null;
 
     responseObj.chapters.language =
       $latestChap.find('span').first().find('b').text().trim() || null;
-    responseObj.chapters.lastUpdated =
-      $latestChap.find('span').last().text().trim() || null;
+    responseObj.chapters.lastUpdated = $latestChap.find('span').last().text().trim() || null;
 
     resObj.response.push(responseObj);
   });
-
-  console.log(JSON.stringify(resObj, null, 2));
 
   return resObj;
 };

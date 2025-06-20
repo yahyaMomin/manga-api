@@ -19,6 +19,9 @@ const extractDetailpage = (html) => {
       from: null,
       to: null,
     },
+    hasChapters: true,
+    hasVolumes: false,
+    totalChapters: null,
     mangazines: null,
     languages: [],
     recommended: [],
@@ -39,13 +42,7 @@ const extractDetailpage = (html) => {
 
   resObj.type = $details.find('.min-info a').first().text().trim() || null;
   resObj.malScore =
-    $details
-      .find('.min-info span')
-      .last()
-      .find('b')
-      .text()
-      .split('MAL')[0]
-      .trim() || null;
+    $details.find('.min-info span').last().find('b').text().split('MAL')[0].trim() || null;
   resObj.synopsis = $('#synopsis .modal-content').text().trim() || null;
 
   $wrapper.find('.meta > div').each((_, el) => {
@@ -77,6 +74,19 @@ const extractDetailpage = (html) => {
       resObj.mangazines = valueSpan.find('a').text().trim();
     }
   });
+
+  resObj.hasVolumes = $wrapper.find('.chapvol-tab a').length > 1;
+
+  resObj.totalChapters =
+    parseInt(
+      $wrapper
+        .find('.list-menu .dropdown-menu')
+        .first()
+        .find('.dropdown-item')
+        .first()
+        .text()
+        .match(/\((\d+)\s*Chapters\)/)[1]
+    ) || null;
 
   $wrapper
     .find('.list-menu .dropdown-menu')
@@ -111,8 +121,7 @@ const extractDetailpage = (html) => {
     recommendedObj.poster = $(el).find('.poster img').attr('src') || null;
     recommendedObj.title = $(el).find('.info h6').text().trim() || null;
     recommendedObj.chapters =
-      parseInt($(el).find('.info span').first().text().split('Chap ').pop()) ||
-      null;
+      parseInt($(el).find('.info span').first().text().split('Chap ').pop()) || null;
 
     resObj.recommended.push(recommendedObj);
   });

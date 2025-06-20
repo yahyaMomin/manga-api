@@ -3,10 +3,24 @@ import mangafireRoutes from './routes/mangafireRoutes';
 import { fail } from './utils/response';
 import { AppError } from './utils/error';
 import { logger } from 'hono/logger';
+import { cors } from 'hono/cors';
+import dotenv from 'dotenv';
 
 const app = new Hono();
 
+dotenv.config();
+
+const origins = process.env.ORIGINS ? process.env.ORIGINS.split(',') : '*';
+console.log(origins);
+
 app.use(logger());
+app.use(
+  '*',
+  cors({
+    origin: origins,
+  })
+);
+
 app.get('/', (c) => {
   return c.json({ message: 'hello world' });
 });
