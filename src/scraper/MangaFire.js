@@ -49,7 +49,8 @@ class MangaFire {
       this.ajaxurl + `/manga/${idCode}/${dataBy.toLowerCase()}/${lang.toLowerCase()}`,
       {
         Referer: this.baseurl + `/manga/${id}`,
-      }
+      },
+      true
     );
 
     if (!data.success) throw new validationError();
@@ -86,9 +87,13 @@ class MangaFire {
     const endpoint = this.ajaxurl + `/read/${mangaId.split('.').pop()}/${type}/${lang}`;
     console.log(endpoint);
 
-    const data = await axiosInstance(endpoint, {
-      Referer: this.baseurl + `/read/${mangaId}`,
-    });
+    const data = await axiosInstance(
+      endpoint,
+      {
+        Referer: this.baseurl + `/read/${mangaId}`,
+      },
+      true
+    );
 
     if (!data.success) throw new validationError();
 
@@ -96,7 +101,13 @@ class MangaFire {
 
     const dataId = $(`ul li a[data-number="${dataNumber}"]`).attr('data-id');
 
-    const chaptersResponse = await axiosInstance(this.ajaxurl + `/read/${type}/${dataId}`);
+    const chaptersResponse = await axiosInstance(
+      this.ajaxurl + `/read/${type}/${dataId}`,
+      {
+        Referer: this.baseurl + `/read/${mangaId}`,
+      },
+      true
+    );
 
     if (!chaptersResponse.success) throw new validationError();
 

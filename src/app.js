@@ -4,13 +4,10 @@ import { fail } from './utils/response';
 import { AppError } from './utils/error';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
-import dotenv from 'dotenv';
 
 const app = new Hono();
 
-dotenv.config();
-
-const origins = process.env.ORIGINS ? process.env.ORIGINS.split(',') : '*';
+let origins = '*';
 
 app.use(logger());
 app.use(
@@ -20,20 +17,15 @@ app.use(
   })
 );
 
-app.get('/', (c) => {
-  return c.json({ message: 'welcome to managa API 🎉' });
-});
-app.get('/health', (c) => {
-  return c.json({ success: true });
-});
+app.get('/', (c) => c.json({ message: 'welcome to manga API 🎉' }));
+app.get('/health', (c) => c.json({ success: true }));
 app.route('/mangafire', mangafireRoutes);
 
 app.onError((err, c) => {
   if (err instanceof AppError) {
     return fail(c, err.message, err.statusCode, err.details);
   }
-  console.error('unexpacted Error :' + err.message);
-
+  console.error('Unexpected Error: ' + err.message);
   return fail(c);
 });
 
