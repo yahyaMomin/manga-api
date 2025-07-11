@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import Manga from '../../src/scraper';
+import Manga from '../src/scraper';
 
 const manga = new Manga();
 

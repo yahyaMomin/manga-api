@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import mangafireRoutes from './routes/mangafireRoutes';
+import weebcentralRoutes from './routes/weebcentralRoutes';
 import { fail } from './utils/response';
 import { AppError } from './utils/error';
 import { logger } from 'hono/logger';
@@ -7,19 +8,23 @@ import { cors } from 'hono/cors';
 
 const app = new Hono();
 
-let origins = '*';
+const origins = process.env.ORIGINS ? process.env.ORIGINS : '*';
+
+console.log(origins);
 
 app.use(logger());
 app.use(
   '*',
   cors({
-    origin: origins,
+    origin: origins.split(','),
   })
 );
 
 app.get('/', (c) => c.json({ message: 'welcome to manga API 🎉' }));
 app.get('/health', (c) => c.json({ success: true }));
+
 app.route('/mangafire', mangafireRoutes);
+app.route('/weebcentral', weebcentralRoutes);
 
 app.onError((err, c) => {
   if (err instanceof AppError) {

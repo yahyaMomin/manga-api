@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import MangafireControllers from '../controllers/mangafireControllers/mangafireControllers';
+import MangafireControllers from '../controllers/mangafireControllers';
 import handler from '../utils/handler';
 
 const router = new Hono();

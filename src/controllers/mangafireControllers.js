@@ -1,6 +1,6 @@
-import Manga from '../../scraper';
-import { validationError } from '../../utils/error';
-import { genres, types, validQueries } from '../../utils/mangafireStatics';
+import Manga from '../scraper';
+import { validationError } from '../utils/error';
+import { genres, types, validQueries } from '../utils/mangafireStatics';
 
 const manga = new Manga();
 class MangafireControllers {
