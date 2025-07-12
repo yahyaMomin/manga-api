@@ -5,8 +5,8 @@ const manga = new Manga();
 describe('homepage', () => {
   it('should return homepage', async () => {
     const response = await manga.WeebCentral.getHomepage();
-    console.log(response);
+    console.log(response.length);
 
-    expect(response.length).greaterThan(0);
+    expect(response.length).toBeGreaterThan(0);
   });
 });

@@ -10,8 +10,6 @@ const app = new Hono();
 
 const origins = process.env.ORIGINS ? process.env.ORIGINS : '*';
 
-console.log(origins);
-
 app.use(logger());
 app.use(
   '*',
