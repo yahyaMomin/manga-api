@@ -8,5 +8,7 @@ router.get('/', (c) => {
   return c.text('welcome to weebCentral API 🎉');
 });
 router.get('/home', handler(weebCentralControllers.getHomepage));
+router.get('/list/meta', handler(weebCentralControllers.getListpageMeta));
+router.get('/list', handler(weebCentralControllers.getListpage));
 
 export default router;
