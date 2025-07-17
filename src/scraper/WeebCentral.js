@@ -5,7 +5,6 @@ import { validationError } from '../utils/error';
 
 class WeebCentral {
   baseurl = weebCentralBaseUrl;
-  ajaxurl = `${weebCentralBaseUrl}/ajax`;
   name = 'weebCentral';
 
   async getHomepage() {
@@ -59,8 +58,22 @@ class WeebCentral {
 
     console.log(`${this.baseurl}/search/data?${fullEndpoint}&display_mode=Full Display`);
 
+    const customHeaders = {
+      Host: 'weebcentral.com',
+      Referer: 'https://weebcentral.com/search',
+      'HX-Request': true,
+      'HX-Trigger': 'search-results',
+      'HX-Target': 'search-results',
+      'HX-Current-URL': 'https://weebcentral.com/search',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-origin',
+      Cookie:
+        'cf_clearance=.66MWyCogNCTcWWB5uWZsOtJ5K40KrGlJCfl5KSNyZQ-1752737119-1.2.1.1-6ZqENvd3AdQpXSBmfr1Qu0f7MZQB_BavViCMrp7IXLN9EGbwhDaa4c5l7yTMAuDVjxahT.NhPioN9ewNn1VIA4MonxMNm573xToMSGYgnPXSCjQ1Uotw7EQrxFDdtmr0QzNilfwMFCpe.OiBLFAflpkxDQKxTPOqG9.bblNdTvsmmlDh043qpEj9HqChVZG5MSBMmh5XLjr0xrGz3pqbjDMuqiEwpu9d6ZBCxlpgJZI',
+    };
     const data = await axiosInstance(
-      `${this.baseurl}/search/data?${fullEndpoint}&display_mode=Full Display`
+      `${this.baseurl}/search/data?${fullEndpoint}&display_mode=Full Display`,
+      { ...customHeaders }
     );
     if (!data.success) throw new validationError();
 
