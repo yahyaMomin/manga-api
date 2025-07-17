@@ -5,6 +5,7 @@ import { fail } from './utils/response';
 import { AppError } from './utils/error';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
+import axios from 'axios';
 
 const app = new Hono();
 
@@ -20,6 +21,12 @@ app.use(
 
 app.get('/', (c) => c.json({ message: 'welcome to manga API 🎉' }));
 app.get('/health', (c) => c.json({ success: true }));
+app.get('/ip', async (c) => {
+  const result = await axios.get('https://api64.ipify.org?format=json');
+  console.log(result.data);
+
+  return c.json(result.data);
+});
 
 app.route('/mangafire', mangafireRoutes);
 app.route('/weebcentral', weebcentralRoutes);
